@@ -1,0 +1,41 @@
+package rules
+
+import com.test.drools.pojo.operators.TransferRequestEvent;
+import com.test.drools.pojo.operators.DebitTransactionEvent;
+
+// 规则1：完全相同
+rule "Exact Coincide - Transfer vs Debit"
+when
+    $req : TransferRequestEvent()
+    $txn : DebitTransactionEvent(this coincides $req)
+then
+    System.out.println("[规则1] 完全对齐: " + $req.getId() + " <-> " + $txn.getId());
+end
+
+// 规则2：单参数（start/end 容差都 <=5s）
+rule "Coincide within 5s - Transfer vs Debit"
+when
+    $req : TransferRequestEvent()
+    $txn : DebitTransactionEvent(this coincides[5s] $req)
+then
+    System.out.println("[规则2] 容差5秒对齐: " + $req.getId() + " <-> " + $txn.getId());
+end
+
+// 规则3：双参数（start<=15s, end<=10s）
+rule "Coincide with thresholds - Transfer vs Debit"
+when
+    $req : TransferRequestEvent()
+    $txn : DebitTransactionEvent(this coincides[15s,10s] $req)
+then
+    System.out.println("[规则3] 开始<=15s 且 结束<=10s: " + $req.getId() + " <-> " + $txn.getId());
+end
+
+
+//// 错误示例：使用负时间间隔（Drools 不支持）
+//rule "Coincide negative interval - Transfer vs Debit"
+//when
+//    $req : TransferRequestEvent()
+//    $txn : DebitTransactionEvent(this coincides[-1s] $req)
+//then
+//    System.out.println("[错误规则] 不允许使用负间隔: " + $req.getId() + " <-> " + $txn.getId());
+//end

@@ -1,0 +1,45 @@
+package rules
+
+import com.test.drools.pojo.TransactionEvent;
+
+
+rule "检测事件是否重叠"
+when
+    $e1 : TransactionEvent()
+    $e2 : TransactionEvent(
+              this != $e1,
+              // 区间重叠
+              this overlaps $e1
+          )
+then
+    System.out.println("区间重叠：事件 " + $e1.getTransactionId() + " 与事件 " + $e2.getTransactionId() + " 在时间上有交集！");
+end
+
+
+//rule "用户10分钟内连续2次支付失败且间隔≤1分钟（基于duration）"
+//when
+//    $first : TransactionEvent(status == "FAIL")
+//    $second : TransactionEvent(
+//                  this != $first,
+//                  userId == $first.userId,
+//                  status == "FAIL",
+//                  // 必须在10分钟窗口内
+//                  this after[0s, 10s] $first
+//              )
+//then
+//    System.out.println("预警（duration版）：用户 " + $first.getUserId() + " 在10分钟内连续两次支付失败，且时间区间重叠≤1分钟，交易ID: " + $first.getTransactionId() + " & " + $second.getTransactionId());
+//end
+
+
+//rule "连续两次支付失败预警"
+//when
+//    // 第一次失败交易
+//    $tx1 : TransactionEvent( status == "FAIL" )
+//
+//    // 第二次失败交易，发生在 $tx1 之后 0 ~ 10 分钟
+//    $tx2 : TransactionEvent( status == "FAIL", userId == $tx1.userId, this after[0s,10m] $tx1 )
+//then
+//    System.out.println("预警：用户 " + $tx1.getUserId() +
+//        " 在10分钟内连续两次支付失败，交易ID: " +
+//        $tx1.getTransactionId() + " & " + $tx2.getTransactionId());
+//end

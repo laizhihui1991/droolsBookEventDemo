@@ -1,0 +1,14 @@
+package rules.includes
+
+import com.test.drools.pojo.operators.during.MeetingEvent
+import com.test.drools.pojo.operators.during.NoteTakingEvent
+
+// 场景2：1 个参数（控制前后最大间隔）
+// 逻辑：当前事件必须包含关联事件，且最大间隔为30分钟
+rule "Includes Operator - One Param Scene"
+    when
+        $note : NoteTakingEvent()
+        $meeting : MeetingEvent(this includes[30m] $note)
+    then
+        System.out.println("[场景2-1个参数] " + $meeting.getId() + " 包含 " + $note.getId() + "，且符合最大间隔30分钟的约束。");
+end

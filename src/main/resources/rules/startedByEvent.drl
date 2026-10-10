@@ -1,0 +1,21 @@
+package rules;
+
+import com.test.drools.pojo.operators.LoadingEvent;
+import com.test.drools.pojo.operators.TransportEvent;
+
+rule "Transport strictly startedby with Loading"
+    when
+        $load : LoadingEvent($shipmentId : shipmentId)
+        $transport : TransportEvent(shipmentId == $shipmentId, this startedby $load)
+    then
+        System.out.println("【严格同步】装载与运输任务同步启动！货运单号：" + $shipmentId+" startedby ");
+end
+
+
+rule "Transport startedby with Loading within 10 seconds"
+    when
+        $load : LoadingEvent($shipmentId : shipmentId)
+        $transport : TransportEvent(shipmentId == $shipmentId, this startedby[10s] $load)
+    then
+        System.out.println("【容差同步】运输任务在装载开始10秒内启动！货运单号：" + $shipmentId +" startedby[10] ");
+end

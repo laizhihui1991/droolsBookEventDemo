@@ -1,0 +1,28 @@
+package rules;
+
+import com.test.drools.pojo.operators.TemperatureEvent;
+
+// 时间滑动窗口
+rule "High temperature in last 2 minutes"
+when
+    accumulate(
+        $e : TemperatureEvent() over window:time(2m),
+        $avgTemp : average($e.getValue())
+    )
+    Number(doubleValue > 30) from $avgTemp
+then
+    System.out.println("【告警】最近 2 分钟平均温度超过 30℃！");
+end
+
+// 长度滑动窗口
+rule "Frequent high temperature in last 20 readings"
+when
+    accumulate(
+        TemperatureEvent(value > 32) over window:length(20),
+        $countHigh : count(1)
+    )
+    Number(intValue > 15) from $countHigh
+then
+    System.out.println("【告警】最近 20 条温度记录中高温（>32℃）超过 15 条！");
+end
+

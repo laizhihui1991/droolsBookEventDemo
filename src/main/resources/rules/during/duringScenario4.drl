@@ -1,0 +1,15 @@
+package rules.during
+
+import com.test.drools.pojo.operators.during.LunchServiceEvent
+import com.test.drools.pojo.operators.during.DiningEvent
+
+// 场景4：4 个参数（分别控制开始/结束的最小与最大间隔）
+// 逻辑：开始时间必须在目标事件开始后 10~20 分钟内，结束时间必须在目标事件结束前 5~15 分钟内
+rule "During Operator - Four Params Scene"
+    when
+        $lunch : LunchServiceEvent()
+        $dining : DiningEvent(this during[10m,20m,5m,15m] $lunch)
+    then
+        System.out.println("[场景4-4个参数] " + $dining.getId() +
+            " 在 " + $lunch.getId() + " 内，且符合 '开始10~20分钟'、'结束前5~15分钟' 的区间约束。");
+end

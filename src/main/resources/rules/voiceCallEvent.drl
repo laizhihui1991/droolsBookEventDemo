@@ -1,0 +1,10 @@
+package rules;
+
+import com.test.drools.pojo.VoiceCallEvent;
+
+rule "Detect voice call"
+when
+    $call : VoiceCallEvent()
+then
+    System.out.println("检测到通话事件: " + $call);
+end

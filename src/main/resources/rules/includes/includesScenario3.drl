@@ -1,0 +1,15 @@
+package rules.includes
+
+import com.test.drools.pojo.operators.during.MovieScreeningEvent
+import com.test.drools.pojo.operators.during.BathroomBreakEvent
+
+// 场景3：2 个参数（控制前后区间）
+// 逻辑：当前事件（电影）完全包含关联事件（上厕所），并且区间在 5~10 分钟之间
+rule "Includes Operator - Two Params Scene"
+    when
+        $bathroom : BathroomBreakEvent()
+        $movie : MovieScreeningEvent(this includes[5m,10m] $bathroom)
+    then
+        System.out.println("[场景3-2个参数] " + $movie.getId() +
+            " 包含了 " + $bathroom.getId() + "，且区间符合 5~10 分钟约束。");
+end

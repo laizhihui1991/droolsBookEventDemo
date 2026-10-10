@@ -1,0 +1,20 @@
+package rules;
+
+import com.test.drools.pojo.operators.AfterSaleEvent;
+import com.test.drools.pojo.operators.RefundEvent;
+
+rule "Refund strictly finished by AfterSaleEvent"
+when
+    $r : RefundEvent($orderId : orderId)
+    $a : AfterSaleEvent(orderId == $orderId, this finishedby $r)
+then
+    System.out.println("【精确匹配】订单[" + $orderId + "] 的售后事件完全由退款事件结束触发！finishedby");
+end
+
+rule "Refund finished by AfterSaleEvent with small delay"
+when
+    $r : RefundEvent($orderId : orderId)
+    $a : AfterSaleEvent(orderId == $orderId, this finishedby[5s]  $r)
+then
+    System.out.println("【容差匹配】订单[" + $orderId + "] 的售后事件在退款事件结束5秒内完成（非完全同步）！finishedby[5s]");
+end

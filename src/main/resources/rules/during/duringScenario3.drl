@@ -1,0 +1,13 @@
+package rules.during
+
+import com.test.drools.pojo.operators.during.MovieScreeningEvent
+import com.test.drools.pojo.operators.during.BathroomBreakEvent
+
+rule "During Operator - Two Params Scene"
+    when
+        $movie : MovieScreeningEvent()
+        $bathroom : BathroomBreakEvent(this during[5m,10m] $movie)
+    then
+        System.out.println("[场景3-2个参数] " + $bathroom.getId() +
+            " 在 " + $movie.getId() + " 内，且符合5~10分钟区间约束。");
+end

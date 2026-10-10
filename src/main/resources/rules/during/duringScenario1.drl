@@ -1,0 +1,13 @@
+package rules.during;
+
+import com.test.drools.pojo.operators.during.MomCleaningEvent;
+import com.test.drools.pojo.operators.during.ChildPlayEvent;
+
+// 无参数 during：孩子玩积木完全在妈妈打扫时间内
+rule "Child plays during mom cleaning"
+when
+    $mom : MomCleaningEvent()
+    $child : ChildPlayEvent(this during $mom)
+then
+    System.out.println("[场景1-无参数] " + $child.getId() + " 完全在 " + $mom.getId() + " 内");
+end

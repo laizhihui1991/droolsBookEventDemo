@@ -1,0 +1,17 @@
+package rules.includes
+
+import com.test.drools.pojo.operators.during.LunchServiceEvent
+import com.test.drools.pojo.operators.during.DiningEvent
+
+// 场景4：4 个参数（控制开始/结束的最小与最大间隔）
+// 逻辑：当前事件（午餐服务）必须包含关联事件（用餐过程）
+//      开始时间领先 10~20 分钟，结束时间落后 5~15 分钟
+rule "Includes Operator - Four Params Scene"
+    when
+        $dining : DiningEvent()
+        $lunch : LunchServiceEvent(this includes[10m,20m,5m,15m] $dining)
+    then
+        System.out.println("[场景4-4个参数] " + $lunch.getId() +
+            " 包含了 " + $dining.getId() +
+            "，且符合 '开始提前10~20分钟'、'结束延后5~15分钟' 的区间约束。");
+end

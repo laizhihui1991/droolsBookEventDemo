@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://www.drools.org/xsd/kmodule">
+    <!-- 1. eventProcessingMode="STREAM"：启用事件流处理模式（必须） -->
+    <kbase name="kieBaseEvents" packages="rules" eventProcessingMode="stream">
+<!--    <kbase name="kieBaseEvents" packages="rules" eventProcessingMode="cloud">-->
+        <!-- 2. clockType="pseudo"：指定会话使用伪时钟（支持 SessionPseudoClock） -->
+        <ksession name="kieSessionEvents" clockType="pseudo" />
+    </kbase>
+
+    <kbase name="kieBaseTransactionEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionTransactionEvents" clockType="pseudo" />
+    </kbase>
+
+    <kbase name="kieBaseVoiceCallEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionVoiceCallEvents" clockType="pseudo" />
+    </kbase>
+
+    <kbase name="kieBaseAfterEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionAfterEvents" clockType="pseudo"/>
+    </kbase>
+
+    <kbase name="kieBaseBeforeEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionBeforeEvents" clockType="pseudo"/>
+    </kbase>
+
+    <kbase name="kieBaseCoincidesEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionCoincidesEvents"  clockType="pseudo"/>
+    </kbase>
+
+    <kbase name="kieBaseDuringEvents" packages="rules.during">
+        <ksession name="kieSessionDuring1Events" clockType="pseudo"/>
+        <ksession name="kieSessionDuring2Events" clockType="pseudo"/>
+        <ksession name="kieSessionDuring3Events" clockType="pseudo"/>
+        <ksession name="kieSessionDuring4Events" clockType="pseudo"/>
+    </kbase>
+
+    <kbase name="kieBaseIncludesEvents" packages="rules.includes" eventProcessingMode="stream">
+<!--    <kbase name="kieBaseIncludesEvents" packages="rules.includes" eventProcessingMode="cloud">-->
+        <ksession name="kieSessionIncludes1Events" clockType="pseudo"/>
+        <ksession name="kieSessionIncludes2Events" clockType="pseudo"/>
+        <ksession name="kieSessionIncludes3Events" clockType="pseudo"/>
+        <ksession name="kieSessionIncludes4Events" clockType="pseudo"/>
+    </kbase>
+
+    <kbase name="kieBaseFinishesEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionFinishesEvents" clockType="pseudo"/>
+    </kbase>
+
+    <kbase name="kieBaseFinishedByEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionFinishedByEvents" clockType="pseudo"/>
+    </kbase>
+
+    <kbase name="kieBaseMeetsEvents" packages="rules" eventProcessingMode="cloud">
+        <ksession name="kieSessionMeetsEvents" clockType="pseudo"/>
+    </kbase>
+
+    <kbase name="kieBaseMetByEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionMetByEvents" clockType="pseudo"/>
+    </kbase>
+
+    <kbase name="kieBaseOverlapsEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionOverlapsEvents" clockType="pseudo"/>
+    </kbase>
+
+    <kbase name="kieBaseOverlappedByEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionOverlappedByEvents" clockType="pseudo"/>
+    </kbase>
+
+    <kbase name="kieBaseStartsEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionStartsEvents" clockType="pseudo"/>
+    </kbase>
+
+    <kbase name="kieBaseStartedByEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionStartedByEvents" clockType="pseudo"/>
+    </kbase>
+
+    <kbase name="kieBaseWindowEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionWindowEvents" clockType="pseudo"/>
+    </kbase>
+
+
+    <kbase name="kieBaseFireEvents" packages="rules" eventProcessingMode="stream">
+        <ksession name="kieSessionFireEvents" clockType="pseudo"/>
+    </kbase>
+</kmodule>

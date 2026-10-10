@@ -1,0 +1,14 @@
+package rules;
+
+import com.test.drools.pojo.FireDetectedEvent;
+import com.test.drools.pojo.SprinklerActivatedEvent;
+
+// 如果火灾探测到，但10秒内喷淋未启动，则触发报警
+rule "Fire alarm on missing sprinkler"
+when
+    $f: FireDetectedEvent($location: location) from entry-point "FireStream"
+    not(SprinklerActivatedEvent(location == $location, this after[0s,10s] $f) from entry-point "FireStream")
+then
+    System.out.println("警报！位置 [" + $location + "] 检测到火灾，但喷淋系统在规定时间内未启动。");
+    System.out.println("火灾事件详情：" + $f);
+end

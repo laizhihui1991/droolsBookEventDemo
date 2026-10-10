@@ -1,0 +1,13 @@
+package rules;
+
+import com.test.drools.pojo.operators.InboundEvent;
+import com.test.drools.pojo.operators.ShipmentEvent;
+
+// 检测入库事件必须在发货前 3m30s~4m 内完成
+rule "Inbound before Shipment in 3m30s~4m"
+when
+    $shipment : ShipmentEvent($oid : orderId)
+    $inbound  : InboundEvent(orderId == $oid, this before[3m30s, 4m] $shipment)
+then
+    System.out.println("[规则匹配] 订单 " + $oid +" 仓库入库事件，必须在发货事件 之前 3分30秒~4分钟，符合要求。");
+end

@@ -1,0 +1,72 @@
+package rules;  // 必须与规则文件目录名一致（resources/rules → package rules）
+
+// 1. declare声明事件类：会生成 rules.DeclareLoginEntity 类
+declare DeclareLoginEvent
+    @role(event)          // 标记为事件
+    userId : String
+    ip : String
+    success : boolean
+    loginTime : Long
+    @timestamp(loginTime) // 时间戳字段
+end
+
+// 2. 检测登录失败事件
+rule "检测登录失败事件"
+    salience 50
+    when
+        $event : DeclareLoginEvent(success == false)
+    then
+        System.out.println("[失败事件] 用户=" + $event.getUserId() + ", IP=" + $event.getIp() + ", 时间戳=" + $event.getLoginTime());
+end
+
+// 3. 检测10秒内的登录事件
+rule "检测10秒内的登录事件"
+    salience 10
+    when
+        $event : DeclareLoginEvent() over window:time(10s)
+    then
+        System.out.println("[10秒窗口事件] 用户=" + $event.getUserId() + ", 时间戳=" + $event.getLoginTime());
+end
+
+
+//import com.test.drools.pojo.LoginEntity;
+//
+//declare LoginEntity
+//    @role(event)                  // 声明为Event
+//    @timestamp(loginTime)       // 时间戳属性
+//end
+//
+// 规则1：检测登录失败事件
+//rule "检测登录失败事件"
+//    when
+//        $event : LoginEntity(success == false)
+//    then
+//        System.out.println("[失败事件] 用户=" + $event.getUserId() + ", IP=" + $event.getIp() + ", 时间戳=" + $event.getLoginTime());
+//end
+//
+//// 规则2：检测100秒内的登录事件（窗口规则）
+//rule "检测10秒内的登录事件"
+//    when
+//        $event : LoginEntity() over window:time(10s)
+//    then
+//        System.out.println("[10秒窗口事件] 用户=" + $event.getUserId() + ", 时间戳=" + $event.getLoginTime());
+//end
+
+
+//import com.test.drools.pojo.LoginEvent;
+//
+//// 规则1：检测登录失败事件
+//rule "检测登录失败事件"
+//    when
+//        $event : LoginEvent(success == false)
+//    then
+//        System.out.println("[失败事件] 用户=" + $event.getUserId() + ", IP=" + $event.getIp() + ", 时间戳=" + $event.getLoginTime());
+//end
+//
+//// 规则2：检测100秒内的登录事件（窗口规则）
+//rule "检测10秒内的登录事件"
+//    when
+//        $event : LoginEvent() over window:time(10s)
+//    then
+//        System.out.println("[10秒窗口事件] 用户=" + $event.getUserId() + ", 时间戳=" + $event.getLoginTime());
+//end

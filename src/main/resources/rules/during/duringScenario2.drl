@@ -1,0 +1,14 @@
+package rules.during
+
+import com.test.drools.pojo.operators.during.MeetingEvent
+import com.test.drools.pojo.operators.during.NoteTakingEvent
+
+// 场景2：1 个参数（控制前后最大间隔）
+// 逻辑：当前事件的开始和结束时间都必须位于关联事件之内，且最大间隔为 30 分钟
+rule "During Operator - One Param Scene"
+    when
+        $meeting : MeetingEvent()
+        $note : NoteTakingEvent(this during[30m] $meeting)
+    then
+        System.out.println("[场景2-1个参数] " + $note.getId() + " 在 " + $meeting.getId() + " 内，且符合最大间隔30分钟的约束。");
+end

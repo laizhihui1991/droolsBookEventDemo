@@ -1,0 +1,20 @@
+package rules;
+
+import com.test.drools.pojo.operators.ProcessingEvent;
+import com.test.drools.pojo.operators.QualityCheckEvent;
+
+rule "QualityCheck immediately meets ProcessingEvent"
+    when
+        $p : ProcessingEvent($workOrderId : workOrderId)
+        $q : QualityCheckEvent(workOrderId == $workOrderId, this meets $p)
+    then
+        System.out.println("【精确匹配】工单[" + $workOrderId + "] 的质量检测在加工结束后立即开始！");
+end
+
+rule "QualityCheck meets ProcessingEvent within 5 seconds"
+    when
+        $p : ProcessingEvent($workOrderId : workOrderId)
+        $q : QualityCheckEvent(workOrderId == $workOrderId, this meets[5s] $p)
+    then
+        System.out.println("【容差匹配】工单[" + $workOrderId + "] 的质量检测在加工结束5秒内开始！");
+end

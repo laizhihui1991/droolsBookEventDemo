@@ -1,0 +1,28 @@
+package rules;
+
+import com.test.drools.pojo.operators.AfterSaleEvent;
+import com.test.drools.pojo.operators.CustomerSupportEvent;
+
+rule "Support strictly overlaps AfterSale"
+    when
+        $s : CustomerSupportEvent($orderId : orderId)
+        $a : AfterSaleEvent(orderId == $orderId, this overlaps $s)
+    then
+        System.out.println("【严格重叠】订单[" + $orderId + "] 的客服介入与售后事件存在时间交集！");
+end
+
+rule "Support overlaps AfterSale within 4 seconds"
+    when
+        $s : CustomerSupportEvent($orderId : orderId)
+        $a : AfterSaleEvent(orderId == $orderId, this overlaps[4s] $s)
+    then
+        System.out.println("【容差重叠】订单[" + $orderId + "] 的客服介入在售后结束4秒内启动，视为时间重叠！");
+end
+
+rule "Support overlaps AfterSale with delay 6~10s"
+    when
+        $s : CustomerSupportEvent($orderId : orderId)
+        $a : AfterSaleEvent(orderId == $orderId, this overlaps[6s,10s] $s)
+    then
+        System.out.println("【延迟重叠】订单[" + $orderId + "] 的客服介入在售后结束后6~10秒内启动！");
+end
